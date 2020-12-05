@@ -1,8 +1,8 @@
 {
-  "name": "Start on Heroku: Node.js",
-  "description": "A barebones Node.js app using Express 4",
+  "name": "trabalho-pdm",
+  "description": "trabalho-pdm",
   "repository": "https://github.com/mateusconceicao/pdm-backend.git",
-  "logo": "https://cdn.rawgit.com/heroku/node-js-getting-started/main/public/node.svg",
+  "logo": "https://raw.githubusercontent.com/mateusconceicao/pdm-backend/main/public/node.svg",
   "keywords": ["node", "express", "heroku"],
   "image": "heroku/nodejs"
 }
