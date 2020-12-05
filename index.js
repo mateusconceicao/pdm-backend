@@ -1,4 +1,6 @@
-import * as firebase from "firebase/app";
+var firebase = require("firebase/app");
+require("firebase/auth");
+require("firebase/firestore");
 
 const express = require('express')
 const path = require('path')
