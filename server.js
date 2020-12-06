@@ -73,6 +73,7 @@ function verifyToken(req, res){
 }
 
 app.get('/despesa',(req, res)=>{
+  console.log('ok')
   if (verifyToken(req, res)) {
     var despesaRef = firebase.database().ref("/despesa/");
     despesaRef.on("value",
