@@ -54,7 +54,7 @@ app.get('/hello',(req, res)=>{
 })
 function verifyToken(req, res){
   //admin.initializeApp(firebaseConfig);
-  console.log(req.headers)
+  console.log(req.headers.authorization)
 
   const token = /^Bearer (.+)$/.exec(req.headers.authorization || '')
   if (!token) {
