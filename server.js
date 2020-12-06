@@ -168,7 +168,7 @@ app.post('/updateDespesa', function(req, res){
 });
 
 
-//Delete an instance
+//Delete
 app.delete('/deleteDespesa', function (req, res) {
 
   console.log("HTTP DELETE Request");
@@ -182,3 +182,4 @@ var server = app.listen(8080, function () {
   
   console.log("Example app listening at http://%s:%s", host, port);
 });
+
