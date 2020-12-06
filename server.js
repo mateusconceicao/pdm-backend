@@ -73,7 +73,7 @@ function verifyToken(req, res){
 }
 
 app.get('/despesa',(req, res)=>{
-  if (verifyToken(req, res) == true) {
+  if (verifyToken(req, res)) {
     var despesaRef = firebase.database().ref("/despesa/");
     despesaRef.on("value",
       function(snapshot){
@@ -86,20 +86,10 @@ app.get('/despesa',(req, res)=>{
         res.send("Error: " + errorObject.code);
       }
     )
+  }else{
+    res.send('Erro: Token Invalido')
   }
-  /*try {
-
-    console.log('Antes do admin')
-    admin.database().ref('/receita').on('value', (snapshot) => {
-      console.log('Dentro do admin')
-      res.status(200).json({"receita":snapshot.val()});
-      console.log('depois do resultado')
-    })
-
-  } catch (error) {
-    console.log(error)
-  }
-  */
+   
 })
 
 //Fetch instances
@@ -124,57 +114,62 @@ app.get('/check',  (req, res) => {
 
 
 //Create new instance
+
 app.put('/cadastroDespesa', function(req, res){
+  if (verifyToken(req, res)) {
+    var  descricao = req.body.Descricao;
+    var  data = req.body.Data;
+    var  valor  =  req.body.Valor;
 
-	console.log( "Solicitação de colocação HTTP" );
-
-  var  descricao = req.body.Descricao;
-	var  data = req.body.Data;
-	var  valor  =  req.body.Valor;
-
-	var referencePath = '/despesa/' + descricao + '/' ;
-	var despesaRef = firebase.database( ).ref(referencePath);
-	despesaRef.set({ Data:data, Valor : valor }, 
-				 function ( error ){
-					if( error ){
-						res.send( "Não foi possível salvar os dados."  +  error ) ;
-					}else{
-						res.send( "Dados salvos com sucesso." ) ;
-					}
-			});
+    var referencePath = '/despesa/' + descricao + '/' ;
+    var despesaRef = firebase.database( ).ref(referencePath);
+    despesaRef.set({ Data:data, Valor : valor }, 
+          function ( error ){
+            if( error ){
+              res.send( "Não foi possível salvar os dados."  +  error ) ;
+            }else{
+              res.send( "Dados salvos com sucesso." ) ;
+            }
+        });
+  }else{
+    res.send('Erro: Token Invalido')
+  }
 });
 
 
 //Update existing instance
-app.post('/updateDespesa', function(req, res){
+/*app.post('/updateDespesa', function(req, res){
+  if (verifyToken(req, res)) {
+    var  descricao  =  req.body.;
+    var  data  =  req.body.;
+    var  valor  =  req.body.;
 
-	console.log("Solicitação HTTP POST");
-
-	var  userName  =  req.body.UserName;
-	var  name  =  req.body.Nome;
-	var  age  =  req.body.Idade;
-
-	var  referencePath  =  '/despesa/' + userName + '/' ;
-	var  despesaRef  =  firebase.database( ).ref(referencePath);
-	despesaRef.update( { Nome : nome ,  Idade : idade } , 
-				 function(error){
-					if(error){
-						res.send( "Não foi possível atualizar os dados."  +  error ) ;
-          
-          }else{
-						res.send( "Dados atualizados com sucesso." ) ;
-					}
-			  });
+    var  referencePath  =  '/despesa/' + userName + '/' ;
+    var  despesaRef  =  firebase.database( ).ref(referencePath);
+    despesaRef.update( { Nome : nome ,  Idade : idade } , 
+          function(error){
+            if(error){
+              res.send( "Não foi possível atualizar os dados."  +  error ) ;
+            
+            }else{
+              res.send( "Dados atualizados com sucesso." ) ;
+            }
+          });
+  }else{
+    res.send('Erro: Token Invalido')
+  }
 });
-
+*/
 
 //Delete
-app.delete('/deleteDespesa', function (req, res) {
-
-  console.log("HTTP DELETE Request");
+app.delete('/deleteDespesa/:key', function (req, res) {
+  var key = req.params.key;
+  console.log('The key: ' + key);
+  let despesaRef = this.database.ref('despesa/' + key);
+  despesaRef.remove();
 
 });
-
+  
 var server = app.listen(8080, function () {
  
   var host = server.address().address;
