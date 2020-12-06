@@ -57,7 +57,7 @@ function verifyToken(req, res){
   
 
   const token = /^Bearer (.+)$/.exec(req.headers.authorization || '')
-  console.log(token)
+ console.log(token)
   if (!token) {
     res.status(401).send();
     return false;
@@ -67,7 +67,7 @@ function verifyToken(req, res){
     .verifyIdToken(token[1], true)
     .catch(function (error) {
       console.log(error);
-      res.setHeader('Content-Type', 'application/json');
+      //res.setHeader('Content-Type', 'application/json');
       res.send({status: 'err'});
       return false;
     });
