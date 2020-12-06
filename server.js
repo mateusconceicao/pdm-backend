@@ -75,7 +75,7 @@ function verifyToken(req, res){
 }
 
 app.options('/despesa',(req, res)=>{
-  if (verifyToken(req, res)) {
+ // if (verifyToken(req, res)) {
     var despesaRef = firebase.database().ref("/despesa/");
     despesaRef.on("value",
       function(snapshot){
@@ -88,10 +88,10 @@ app.options('/despesa',(req, res)=>{
         res.send("Error: " + errorObject.code);
       }
     )
-  }else{
+ /* }else{
     res.send('Erro: Token Invalido')
   }
-   
+   */
 })
 
 //Fetch instances
