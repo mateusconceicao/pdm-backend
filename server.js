@@ -165,8 +165,8 @@ app.put('/cadastroDespesa', function(req, res){
 app.delete('/deleteDespesa/:key', function (req, res) {
   var key = req.params.key;
   console.log('The key: ' + key);
-  let despesaRef = this.database.ref('despesa/' + key);
-  despesaRef.remove();
+  firebase.database().ref('/despesa/' + key).remove()
+  res.status(200).send();
 
 });
   
