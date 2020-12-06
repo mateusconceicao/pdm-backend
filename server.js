@@ -102,6 +102,7 @@ app.get('/despesa',(req, res)=>{
   */
 })
 
+//Fetch instances
 app.get('/check',  (req, res) => {
   const token = /^Bearer (.+)$/.exec(req.headers.authorization || '')
 
@@ -121,7 +122,9 @@ app.get('/check',  (req, res) => {
     res.send('ok')
 });
 
-app.put( '/cadastro' ,  function  ( req ,  res )  {
+
+//Create new instance
+app.put('/cadastroDespesa', function(req, res){
 
 	console.log( "Solicitação de colocação HTTP" );
 
@@ -129,14 +132,53 @@ app.put( '/cadastro' ,  function  ( req ,  res )  {
 	var  data = req.body.Data;
 	var  valor  =  req.body.Valor;
 
-	var  referencePath  =  '/despesa/' + descricao + '/' ;
-	var  userReference  =  firebase.database( ).ref(referencePath);
-	userReference.set( { Data:data,  Valor : valor } , 
-				 function ( error )  {
-					if  ( error )  {
+	var referencePath = '/despesa/' + descricao + '/' ;
+	var despesaRef = firebase.database( ).ref(referencePath);
+	despesaRef.set({ Data:data, Valor : valor }, 
+				 function ( error ){
+					if( error ){
 						res.send( "Não foi possível salvar os dados."  +  error ) ;
 					}else{
 						res.send( "Dados salvos com sucesso." ) ;
 					}
-			} ) ;
-} ) ;
+			});
+});
+
+
+//Update existing instance
+app.post('/updateDespesa', function(req, res){
+
+	console.log("Solicitação HTTP POST");
+
+	var  userName  =  req.body.UserName;
+	var  name  =  req.body.Nome;
+	var  age  =  req.body.Idade;
+
+	var  referencePath  =  '/despesa/' + userName + '/' ;
+	var  despesaRef  =  firebase.database( ).ref(referencePath);
+	despesaRef.update( { Nome : nome ,  Idade : idade } , 
+				 function(error){
+					if(error){
+						res.send( "Não foi possível atualizar os dados."  +  error ) ;
+          
+          }else{
+						res.send( "Dados atualizados com sucesso." ) ;
+					}
+			  });
+});
+
+
+//Delete an instance
+app.delete('/deleteDespesa', function (req, res) {
+
+  console.log("HTTP DELETE Request");
+
+});
+
+var server = app.listen(8080, function () {
+ 
+  var host = server.address().address;
+  var port = server.address().port;
+  
+  console.log("Example app listening at http://%s:%s", host, port);
+});
