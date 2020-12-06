@@ -54,6 +54,7 @@ app.get('/hello',(req, res)=>{
 })
 function verifyToken(req, res){
   //admin.initializeApp(firebaseConfig);
+  console.log(req.headers)
 
   const token = /^Bearer (.+)$/.exec(req.headers.authorization || '')
   if (!token) {
@@ -73,7 +74,6 @@ function verifyToken(req, res){
 }
 
 app.options('/despesa',(req, res)=>{
-  console.log('ok')
   if (verifyToken(req, res)) {
     var despesaRef = firebase.database().ref("/despesa/");
     despesaRef.on("value",
